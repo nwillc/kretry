@@ -1,21 +1,51 @@
 package com.github.nwillc.kretry
 
 import java.lang.Thread.sleep
+import java.util.concurrent.TimeUnit
 
-// todo backoff
-// todo validator
 // todo coroutines
+// todo config builder
 
-fun <C : Any, T> C.retry(attempts: Int = 20, block: C.() -> T): T {
+fun <C : Any, T> C.retry(config: Config<T> = Config(), block: C.() -> T): T {
     var attempted: Int = 0
-    while (attempted < attempts) {
+    while (attempted < config.attempts) {
         try {
-            return block()
+            val result = block()
+            if (config.predicate(result))
+                return result
+            else
+                println("failed predicate")
         } catch (e: Exception) {
             println("failure $e")
         }
-        sleep(1000)
         attempted++
+        val delay = delay(attempted, config)
+        sleep(delay.unit.toMillis(delay.amount))
     }
-    throw Exception("Max retries reached: $attempts")
+
+    throw Exception("Max retries reached: ${config.attempts}")
+}
+
+enum class BackOff {
+    NONE,
+    LINER
+}
+
+data class Delay (
+    val unit: TimeUnit = TimeUnit.MILLISECONDS,
+    val amount: Long = 500
+)
+
+data class Config<T>(
+    val attempts: Int = 20,
+    val delay: Delay = Delay(),
+    val backOff: BackOff = BackOff.NONE,
+    val predicate: (T)->Boolean = { true }
+)
+
+fun <T> delay(attempt: Int, config: Config<T>): Delay {
+    return when (config.backOff) {
+        BackOff.NONE -> config.delay
+        BackOff.LINER -> config.delay.copy(amount = config.delay.amount * attempt)
+    }
 }
