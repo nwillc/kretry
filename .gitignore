@@ -1,7 +1,7 @@
 .idea
 out
 .gradle.kts
-gradle
+.gradle
 build
 *.iml
 .java-version

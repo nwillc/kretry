@@ -64,4 +64,7 @@ tasks {
             }
         }
     }
+    withType<Wrapper> {
+        gradleVersion = "5.6.2"
+    }
 }
