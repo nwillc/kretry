@@ -1,10 +1,8 @@
 package com.github.nwillc.kretry
 
 import java.lang.Thread.sleep
-import java.util.concurrent.TimeUnit
 
 // todo coroutines
-// todo config builder
 
 fun <C : Any, T> C.retry(config: Config<T> = Config(), block: C.() -> T): T {
     var attempted: Int = 0
@@ -23,29 +21,20 @@ fun <C : Any, T> C.retry(config: Config<T> = Config(), block: C.() -> T): T {
         sleep(delay.unit.toMillis(delay.amount))
     }
 
-    throw Exception("Max retries reached: ${config.attempts}")
+    throw RetryExceededException("Max retries reached: ${config.attempts}")
 }
 
-enum class BackOff {
-    NONE,
-    LINER
-}
-
-data class Delay (
-    val unit: TimeUnit = TimeUnit.MILLISECONDS,
-    val amount: Long = 500
-)
-
-data class Config<T>(
-    val attempts: Int = 20,
-    val delay: Delay = Delay(),
-    val backOff: BackOff = BackOff.NONE,
-    val predicate: (T)->Boolean = { true }
-)
+class RetryExceededException(msg: String) : Exception(msg)
 
 fun <T> delay(attempt: Int, config: Config<T>): Delay {
     return when (config.backOff) {
         BackOff.NONE -> config.delay
         BackOff.LINER -> config.delay.copy(amount = config.delay.amount * attempt)
+        BackOff.FIBONACHI -> config.delay.copy(amount = config.delay.amount * fibonacci(attempt))
     }
+}
+
+internal fun fibonacci(n: Int): Int {
+    tailrec fun fibTail(n: Int, first: Int, second: Int): Int = if (n == 0) first else fibTail(n-1, second, first+second)
+    return fibTail(n, 0, 1)
 }

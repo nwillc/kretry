@@ -7,6 +7,7 @@ val mockkVersion: String by project
 
 plugins {
     kotlin("jvm") version "1.3.50"
+    jacoco
     id("com.github.nwillc.vplugin") version "3.0.1"
     id("io.gitlab.arturbosch.detekt") version "1.1.1"
     id("org.jlleitschuh.gradle.ktlint") version "9.0.0"
@@ -50,6 +51,17 @@ tasks {
         testLogging {
             showStandardStreams = true
             events("passed", "failed", "skipped")
+        }
+    }
+    withType<JacocoReport> {
+        dependsOn("test")
+        reports {
+            xml.apply {
+                isEnabled = true
+            }
+            html.apply {
+                isEnabled = true
+            }
         }
     }
 }
