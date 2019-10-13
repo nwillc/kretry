@@ -15,7 +15,7 @@ enum class BackOff {
     FIBONACHI
 }
 
-data class Delay (
+data class Delay(
     val unit: TimeUnit = TimeUnit.MILLISECONDS,
     val amount: Long = 500
 )

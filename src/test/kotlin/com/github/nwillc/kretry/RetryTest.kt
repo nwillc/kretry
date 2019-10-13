@@ -1,9 +1,9 @@
 package com.github.nwillc.kretry
 
+import java.util.concurrent.TimeUnit
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
-import java.util.concurrent.TimeUnit
 
 class RetryTest {
     @Test
@@ -96,7 +96,7 @@ class RetryTest {
 
     @Test
     fun `should throw exception if attempt count exceeded`() {
-        val config= Config<String>().apply {
+        val config = Config<String>().apply {
             attempts = 5
         }
         assertThatThrownBy {

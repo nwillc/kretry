@@ -4,6 +4,7 @@ import java.lang.Thread.sleep
 
 // todo coroutines
 
+@SuppressWarnings("TooGenericExceptionCaught")
 fun <C : Any, T> C.retry(config: Config<T> = Config(), block: C.() -> T): T {
     var attempted: Int = 0
     while (attempted < config.attempts) {
@@ -24,8 +25,6 @@ fun <C : Any, T> C.retry(config: Config<T> = Config(), block: C.() -> T): T {
     throw RetryExceededException("Max retries reached: ${config.attempts}")
 }
 
-class RetryExceededException(msg: String) : Exception(msg)
-
 fun <T> delay(attempt: Int, config: Config<T>): Delay {
     return when (config.backOff) {
         BackOff.NONE -> config.delay
@@ -35,6 +34,9 @@ fun <T> delay(attempt: Int, config: Config<T>): Delay {
 }
 
 internal fun fibonacci(n: Int): Int {
-    tailrec fun fibTail(n: Int, first: Int, second: Int): Int = if (n == 0) first else fibTail(n-1, second, first+second)
+    tailrec fun fibTail(n: Int, first: Int, second: Int): Int = if (n == 0)
+        first
+    else
+        fibTail(n - 1, second, first + second)
     return fibTail(n, 0, 1)
 }
