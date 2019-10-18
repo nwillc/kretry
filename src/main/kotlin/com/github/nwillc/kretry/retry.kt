@@ -34,7 +34,7 @@ fun <C : Any, T> C.retry(config: Config<T> = Config(), block: C.() -> T): T {
             else
                 logger.info("Predicate failed.")
         } catch (e: Exception) {
-            logger.warn("Block failed with $e.")
+            logger.error("Block failed with $e.")
         }
         attempted++
         val delay = delay(attempted, config)
