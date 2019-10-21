@@ -5,12 +5,14 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val publicationName = "maven"
 
 val assertJVersion: String by project
+val cucumberVersion: String by project
 val jupiterVersion: String by project
 val ktlintToolVersion: String by project
 val mockkVersion: String by project
 val slf4jApiVersion: String by project
 val slf4jKextVersion: String by project
 val slf4jTestVersion: String by project
+val spekVersion: String by project
 
 plugins {
     kotlin("jvm") version "1.3.50"
@@ -43,12 +45,18 @@ dependencies {
         "io.mockk:mockk:$mockkVersion",
         "org.assertj:assertj-core:$assertJVersion",
         "org.junit.jupiter:junit-jupiter-api:$jupiterVersion",
-        "uk.org.lidalia:slf4j-test:$slf4jTestVersion"
+        "uk.org.lidalia:slf4j-test:$slf4jTestVersion",
+        "io.cucumber:cucumber-junit:$cucumberVersion",
+        "io.cucumber:cucumber-java8:$cucumberVersion",
+        "org.spekframework.spek2:spek-dsl-jvm:$spekVersion"
     )
         .forEach { testImplementation(it) }
 
     listOf(
-        "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
+        kotlin("reflect"),
+        "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion",
+        "org.spekframework.spek2:spek-runner-junit5:$spekVersion",
+        "org.junit.vintage:junit-vintage-engine:$jupiterVersion"
     )
         .forEach { testRuntime(it) }
 }
@@ -103,7 +111,9 @@ tasks {
         manifest.attributes["Automatic-Module-Name"] = "${project.group}.${project.name}"
     }
     withType<Test> {
-        useJUnitPlatform()
+        useJUnitPlatform() {
+            includeEngines("junit-jupiter", "spek2", "junit-vintage")
+        }
         testLogging {
             showStandardStreams = true
             events("passed", "failed", "skipped")

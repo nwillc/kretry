@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test
 import uk.org.lidalia.slf4jtest.TestLoggerFactory
 
 class RetryTest {
-    private var logger = TestLoggerFactory.getTestLogger("retry")
+    private val logger = TestLoggerFactory.getTestLogger("retry")
 
     @BeforeEach
     fun setUp() {
