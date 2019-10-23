@@ -1,6 +1,12 @@
 
 Feature: Usernames should be lowercase
-  Scenario: Username entered mixed case
-    Given a username is required
-    When the user Fred enters mixed case username Fred123
-    Then the User username should be fred123
+  Scenario Outline: Username entered mixed case
+    Given a user name is required
+    When the user Fred enters mixed case username <entered>
+    Then the User username should be <lowercase>
+
+    Examples:
+    | entered | lowercase |
+    | fred123 | fred123   |
+    | Fred123 | fred123   |
+    | FRED123 | fred123   |
