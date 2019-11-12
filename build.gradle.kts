@@ -19,11 +19,11 @@ plugins {
     id("com.github.nwillc.vplugin") version "3.0.1"
     id("com.jfrog.bintray") version "1.8.4"
     id("io.gitlab.arturbosch.detekt") version "1.1.1"
-    id("org.jlleitschuh.gradle.ktlint") version "9.0.0"
+    id("org.jlleitschuh.gradle.ktlint") version "9.1.0"
 }
 
 group = "com.github.nwillc"
-version = "0.1.0"
+version = "0.1.1"
 
 logger.lifecycle("${project.group}.${project.name}@${project.version}")
 
