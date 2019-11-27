@@ -16,12 +16,9 @@
 
 package com.github.nwillc.kretry
 
-import org.assertj.core.api.Assertions
-import org.assertj.core.api.Assertions.`as`
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
-import java.lang.IllegalArgumentException
 import java.util.concurrent.TimeUnit
 
 class RetryTest {

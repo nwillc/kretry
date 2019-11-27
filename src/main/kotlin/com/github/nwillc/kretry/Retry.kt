@@ -18,6 +18,7 @@ package com.github.nwillc.kretry
 
 sealed class Retry<out T> {
     companion object {
+        @SuppressWarnings("TooGenericExceptionCaught")
         operator fun <T> invoke(config: Config<T> = Config(), func: () -> T): Retry<T> =
             try {
                 Success(retry(config) { func() })
