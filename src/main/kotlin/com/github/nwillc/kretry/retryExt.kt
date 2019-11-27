@@ -19,8 +19,6 @@ package com.github.nwillc.kretry
 import com.github.nwillc.slf4jkext.getLogger
 import java.lang.Thread.sleep
 
-// todo coroutines
-
 internal val logger = getLogger("retry")
 
 @SuppressWarnings("TooGenericExceptionCaught")
