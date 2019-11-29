@@ -23,7 +23,7 @@ plugins {
 }
 
 group = "com.github.nwillc"
-version = "0.2.0"
+version = "0.2.1-SNAPSHOT"
 
 logger.lifecycle("${project.group}.${project.name}@${project.version}")
 
@@ -50,7 +50,7 @@ dependencies {
     listOf(
         "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
     )
-        .forEach { testRuntime(it) }
+        .forEach { testRuntimeOnly(it) }
 }
 
 ktlint {

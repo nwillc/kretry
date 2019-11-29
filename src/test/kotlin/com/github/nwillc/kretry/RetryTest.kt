@@ -24,11 +24,7 @@ import org.junit.jupiter.api.Test
 class RetryTest {
     @Test
     fun `should be able to Retry until Failure`() {
-        val config = Config<String>().apply {
-            attempts = 2
-            delay = Delay(TimeUnit.MILLISECONDS, 50)
-        }
-        val result = Retry(config) {
+        val result = Retry<String> {
             throw java.lang.Exception()
         }
 
@@ -45,8 +41,8 @@ class RetryTest {
         val config = Config<String>().apply {
             delay = Delay(TimeUnit.MILLISECONDS, 50)
         }
-        val fail = 10
-        var attempt: Int = 0
+        val fail = 5
+        var attempt = 0
 
         val result = Retry(config) {
             attempt++

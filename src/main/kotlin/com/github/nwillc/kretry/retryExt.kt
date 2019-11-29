@@ -23,7 +23,7 @@ internal val logger = getLogger("retry")
 
 @SuppressWarnings("TooGenericExceptionCaught")
 fun <C : Any, T> C.retry(config: Config<T> = Config(), block: C.() -> T): T {
-    var attempted: Int = 0
+    var attempted = 0
     while (attempted < config.attempts) {
         try {
             val result = block()
@@ -35,8 +35,7 @@ fun <C : Any, T> C.retry(config: Config<T> = Config(), block: C.() -> T): T {
             logger.error("Block failed with $e.")
         }
         attempted++
-        val delay = delay(attempted, config)
-        sleep(delay.unit.toMillis(delay.amount))
+        delay(attempted, config).sleep()
     }
     val msg = "Retry, max attempts reached: ${config.attempts}."
     logger.error(msg)

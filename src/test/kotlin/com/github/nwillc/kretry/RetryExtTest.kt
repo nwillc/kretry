@@ -24,11 +24,16 @@ import org.junit.jupiter.api.Test
 import uk.org.lidalia.slf4jtest.TestLoggerFactory
 
 class RetryExtTest {
-    private var logger = TestLoggerFactory.getTestLogger("retry")
+    private var testLogger = TestLoggerFactory.getTestLogger("retry")
 
     @BeforeEach
     fun setUp() {
-        logger.clear()
+        testLogger.clear()
+    }
+
+    @Test
+    fun `should have logger`() {
+        assertThat(logger).isNotNull
     }
 
     @Test
@@ -71,7 +76,7 @@ class RetryExtTest {
     fun `should retry with defaults`() {
         val expected = "hello"
         val fail = 5
-        var attempt: Int = 0
+        var attempt = 0
         val result = retry {
             attempt++
             if (attempt < fail) {
@@ -89,8 +94,8 @@ class RetryExtTest {
         val config = Config<String>().apply {
             delay = Delay(TimeUnit.MILLISECONDS, 50)
         }
-        val fail = 10
-        var attempt: Int = 0
+        val fail = 5
+        var attempt = 0
         val result = retry(config) {
             attempt++
             if (attempt <= fail) {
@@ -100,7 +105,7 @@ class RetryExtTest {
         }
 
         assertThat(result).isEqualTo(expected)
-        val failures = logger.loggingEvents
+        val failures = testLogger.loggingEvents
             .filter { it.message.startsWith("Block failed") || it.message.startsWith("Predicate failed") }
             .count()
         assertThat(failures).isEqualTo(fail)
@@ -114,7 +119,7 @@ class RetryExtTest {
             delay = Delay(TimeUnit.MILLISECONDS, 50)
         }
         val fail = 3
-        var attempt: Int = 0
+        var attempt = 0
         val result = retry(config) {
             attempt++
             if (attempt <= fail) {
@@ -124,7 +129,7 @@ class RetryExtTest {
         }
 
         assertThat(result).isEqualTo(expected)
-        val failures = logger.loggingEvents
+        val failures = testLogger.loggingEvents
             .filter { it.message.startsWith("Block failed") || it.message.startsWith("Predicate failed") }
             .count()
         assertThat(failures + 1).isEqualTo(6)
@@ -143,7 +148,7 @@ class RetryExtTest {
         }
             .isInstanceOf(RetryExceededException::class.java)
             .hasMessage("Retry, max attempts reached: 5.")
-        val failures = logger.loggingEvents
+        val failures = testLogger.loggingEvents
             .filter { it.message.startsWith("Block failed") || it.message.startsWith("Predicate failed") }
             .count()
         assertThat(failures).isEqualTo(config.attempts)
