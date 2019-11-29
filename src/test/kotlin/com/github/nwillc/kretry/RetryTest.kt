@@ -29,7 +29,6 @@ class RetryTest {
         }
 
         assertThat(result is Failure).isTrue()
-        assertThat((result as Failure).error).isInstanceOf(RetryExceededException::class.java)
         assertThatThrownBy { result.get() }.isInstanceOf(RetryExceededException::class.java)
         assertThat(result.getOrElse("foo")).isEqualTo("foo")
         assertThat(result.toString()).startsWith(("Failure(")).endsWith(")")

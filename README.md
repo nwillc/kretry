@@ -17,14 +17,12 @@ val result: String = retry(config) {
 The above will retry the code block, up to 10 time, until it completes without an exception. If within 10 attempts 
 it never passes a `RetryExceededException` will be thrown.
 
-Or you can use this a bit more like a `Try` class, which won't throw an exception but results in an instance with
+Or you can use the `Retry` class which is a like a `Try`, which won't throw an exception but results in an instance with
 a payload of the result or the exception:
 
 ```kotlin
-val config = Config<String>().apply {
-    attempts = 10
-}
-val result = Retry(config) {
+
+val result = Retry {
     // some code that can fail, possibly with an exception
 }
 

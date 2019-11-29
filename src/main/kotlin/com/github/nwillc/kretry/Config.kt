@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019,  nwillc@gmail.com
+ * Copyright (c) 2019, nwillc@gmail.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -23,12 +23,18 @@ data class Config<T>(
     var delay: Delay = Delay(),
     var backOff: BackOff = BackOff.NONE,
     var predicate: (T) -> Boolean = { true }
-)
+) {
+    fun delay(attempted: Int): Delay = when (backOff) {
+        BackOff.NONE -> delay
+        BackOff.LINER -> delay.copy(amount = delay.amount * attempted)
+        BackOff.FIBONACCI -> delay.copy(amount = delay.amount * fibonacci(attempted))
+    }
+}
 
 enum class BackOff {
     NONE,
     LINER,
-    FIBONACHI
+    FIBONACCI
 }
 
 data class Delay(
@@ -38,4 +44,12 @@ data class Delay(
     fun sleep() {
         Thread.sleep(unit.toMillis(amount))
     }
+}
+
+internal fun fibonacci(n: Int): Int {
+    tailrec fun fibTail(n: Int, first: Int, second: Int): Int = if (n == 0)
+        first
+    else
+        fibTail(n - 1, second, first + second)
+    return fibTail(n, 0, 1)
 }

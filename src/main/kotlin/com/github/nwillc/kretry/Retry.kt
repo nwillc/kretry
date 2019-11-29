@@ -32,13 +32,13 @@ sealed class Retry<out T> {
 }
 
 class Success<T>(val value: T) : Retry<T>() {
-    override fun get(): T = value
-    override fun getOrElse(default: T): T = value
+    override fun get() = value
+    override fun getOrElse(default: T) = value
     override fun toString() = "Success($value)"
 }
 
-class Failure<T>(val error: Exception) : Retry<T>() {
-    override fun get(): T = throw error
-    override fun getOrElse(default: T): T = default
-    override fun toString() = "Failure(${error.message})"
+class Failure<T>(val value: Exception) : Retry<T>() {
+    override fun get(): T = throw value
+    override fun getOrElse(default: T) = default
+    override fun toString() = "Failure(${value.message})"
 }

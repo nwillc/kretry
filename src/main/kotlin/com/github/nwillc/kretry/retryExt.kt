@@ -35,25 +35,9 @@ fun <C : Any, T> C.retry(config: Config<T> = Config(), block: C.() -> T): T {
             logger.error("Block failed with $e.")
         }
         attempted++
-        delay(attempted, config).sleep()
+        config.delay(attempted).sleep()
     }
     val msg = "Retry, max attempts reached: ${config.attempts}."
     logger.error(msg)
     throw RetryExceededException(msg)
-}
-
-fun <T> delay(attempt: Int, config: Config<T>): Delay {
-    return when (config.backOff) {
-        BackOff.NONE -> config.delay
-        BackOff.LINER -> config.delay.copy(amount = config.delay.amount * attempt)
-        BackOff.FIBONACHI -> config.delay.copy(amount = config.delay.amount * fibonacci(attempt))
-    }
-}
-
-internal fun fibonacci(n: Int): Int {
-    tailrec fun fibTail(n: Int, first: Int, second: Int): Int = if (n == 0)
-        first
-    else
-        fibTail(n - 1, second, first + second)
-    return fibTail(n, 0, 1)
 }

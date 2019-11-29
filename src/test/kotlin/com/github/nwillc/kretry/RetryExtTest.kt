@@ -43,7 +43,7 @@ class RetryExtTest {
             delay = Delay(TimeUnit.SECONDS, 1)
         }
 
-        val delay = delay(10, config)
+        val delay = config.delay(10)
         assertThat(delay.unit).isEqualTo(TimeUnit.SECONDS)
         assertThat(delay.amount).isEqualTo(1)
     }
@@ -55,7 +55,7 @@ class RetryExtTest {
             delay = Delay(TimeUnit.MINUTES, 1)
         }
 
-        val delay = delay(10, config)
+        val delay = config.delay(10)
         assertThat(delay.unit).isEqualTo(TimeUnit.MINUTES)
         assertThat(delay.amount).isEqualTo(10)
     }
@@ -63,11 +63,11 @@ class RetryExtTest {
     @Test
     fun `should calculate fibonachi back off delay`() {
         val config = Config<Int>().apply {
-            backOff = BackOff.FIBONACHI
+            backOff = BackOff.FIBONACCI
             delay = Delay(TimeUnit.MINUTES, 1)
         }
 
-        val delay = delay(9, config)
+        val delay = config.delay(9)
         assertThat(delay.unit).isEqualTo(TimeUnit.MINUTES)
         assertThat(delay.amount).isEqualTo(34)
     }
