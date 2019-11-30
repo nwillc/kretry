@@ -9,6 +9,7 @@
 <br/>
 <h1>Retry</h1>
 <code><span class="keyword">sealed</span> <span class="keyword">class </span><span class="identifier">Retry</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>An enhanced Try which will retry until <a href="../-success/index.html">Success</a> or <a href="../-failure/index.html">Failure</a>.</p>
 <h3>Functions</h3>
 <table>
 <tbody>
@@ -17,6 +18,7 @@
 <h4><a href="get.html">get</a></h4>
 </td>
 <td>
+<p>Get the value of the <a href="./index.html">Retry</a>.</p>
 <code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">get</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">T</span></code></td>
 </tr>
 <tr>
@@ -24,6 +26,7 @@
 <h4><a href="get-or-else.html">getOrElse</a></h4>
 </td>
 <td>
+<p>Get the value of the <a href="./index.html">Retry</a>, or a default on <a href="../-failure/index.html">Failure</a>.</p>
 <code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">getOrElse</span><span class="symbol">(</span><span class="identifier" id="com.github.nwillc.kretry.Retry$getOrElse(com.github.nwillc.kretry.Retry.T)/default">default</span><span class="symbol">:</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">T</span></code></td>
 </tr>
 </tbody>
@@ -36,6 +39,8 @@
 <h4><a href="invoke.html">invoke</a></h4>
 </td>
 <td>
+<p>Invoke an instance of <a href="./index.html">Retry</a> with a <a href="../-config/index.html">Config</a> and function to retry. Will result in either an instance of
+<a href="../-success/index.html">Success</a> or <a href="../-failure/index.html">Failure</a>.</p>
 <code><span class="keyword">operator</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">invoke</span><span class="symbol">(</span><span class="identifier" id="com.github.nwillc.kretry.Retry.Companion$invoke(com.github.nwillc.kretry.Config((com.github.nwillc.kretry.Retry.Companion.invoke.T)), kotlin.Function0((com.github.nwillc.kretry.Retry.Companion.invoke.T)))/config">config</span><span class="symbol">:</span>&nbsp;<a href="../-config/index.html"><span class="identifier">Config</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;Config()<span class="symbol">, </span><span class="identifier" id="com.github.nwillc.kretry.Retry.Companion$invoke(com.github.nwillc.kretry.Config((com.github.nwillc.kretry.Retry.Companion.invoke.T)), kotlin.Function0((com.github.nwillc.kretry.Retry.Companion.invoke.T)))/func">func</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">Retry</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
 </tr>
 </tbody>
@@ -48,6 +53,7 @@
 <h4><a href="../-failure/index.html">Failure</a></h4>
 </td>
 <td>
+<p>A <a href="./index.html">Retry</a> that failed.</p>
 <code><span class="keyword">class </span><span class="identifier">Failure</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Retry</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
@@ -55,6 +61,7 @@
 <h4><a href="../-success/index.html">Success</a></h4>
 </td>
 <td>
+<p>A <a href="./index.html">Retry</a> that succeeded.</p>
 <code><span class="keyword">class </span><span class="identifier">Success</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Retry</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
 </tr>
 </tbody>

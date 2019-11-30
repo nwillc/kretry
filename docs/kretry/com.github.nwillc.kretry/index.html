@@ -8,6 +8,7 @@
 <a href="../index.html">kretry</a>&nbsp;/&nbsp;<a href="./index.html">com.github.nwillc.kretry</a><br/>
 <br/>
 <h2>Package com.github.nwillc.kretry</h2>
+<p>The kretry implementation.</p>
 <h3>Types</h3>
 <table>
 <tbody>
@@ -16,6 +17,7 @@
 <h4><a href="-back-off/index.html">BackOff</a></h4>
 </td>
 <td>
+<p>Ways to extend the delay between attempts.</p>
 <code><span class="keyword">enum</span> <span class="keyword">class </span><span class="identifier">BackOff</span></code></td>
 </tr>
 <tr>
@@ -23,20 +25,15 @@
 <h4><a href="-config/index.html">Config</a></h4>
 </td>
 <td>
+<p>The retrying configuration.</p>
 <code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Config</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
-</tr>
-<tr>
-<td>
-<h4><a href="-delay/index.html">Delay</a></h4>
-</td>
-<td>
-<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Delay</span></code></td>
 </tr>
 <tr>
 <td>
 <h4><a href="-failure/index.html">Failure</a></h4>
 </td>
 <td>
+<p>A <a href="-retry/index.html">Retry</a> that failed.</p>
 <code><span class="keyword">class </span><span class="identifier">Failure</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-retry/index.html"><span class="identifier">Retry</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
@@ -44,6 +41,7 @@
 <h4><a href="-retry/index.html">Retry</a></h4>
 </td>
 <td>
+<p>An enhanced Try which will retry until <a href="-success/index.html">Success</a> or <a href="-failure/index.html">Failure</a>.</p>
 <code><span class="keyword">sealed</span> <span class="keyword">class </span><span class="identifier">Retry</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
@@ -51,6 +49,7 @@
 <h4><a href="-success/index.html">Success</a></h4>
 </td>
 <td>
+<p>A <a href="-retry/index.html">Retry</a> that succeeded.</p>
 <code><span class="keyword">class </span><span class="identifier">Success</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-retry/index.html"><span class="identifier">Retry</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
 </tr>
 </tbody>
@@ -63,6 +62,7 @@
 <h4><a href="-retry-exceeded-exception/index.html">RetryExceededException</a></h4>
 </td>
 <td>
+<p>Exception indicating that all retry attempts have failed.</p>
 <code><span class="keyword">class </span><span class="identifier">RetryExceededException</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-exception/index.html"><span class="identifier">Exception</span></a></code></td>
 </tr>
 </tbody>
@@ -75,7 +75,10 @@
 <h4><a href="retry.html">retry</a></h4>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">C</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">C</span><span class="symbol">.</span><span class="identifier">retry</span><span class="symbol">(</span><span class="identifier" id="com.github.nwillc.kretry$retry(com.github.nwillc.kretry.retry.C, com.github.nwillc.kretry.Config((com.github.nwillc.kretry.retry.T)), kotlin.Function1((com.github.nwillc.kretry.retry.C, com.github.nwillc.kretry.retry.T)))/config">config</span><span class="symbol">:</span>&nbsp;<a href="-config/index.html"><span class="identifier">Config</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;Config()<span class="symbol">, </span><span class="identifier" id="com.github.nwillc.kretry$retry(com.github.nwillc.kretry.retry.C, com.github.nwillc.kretry.Config((com.github.nwillc.kretry.retry.T)), kotlin.Function1((com.github.nwillc.kretry.retry.C, com.github.nwillc.kretry.retry.T)))/block">block</span><span class="symbol">:</span>&nbsp;<span class="identifier">C</span><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">T</span></code></td>
+<p>A retrying extension that will retry a given function based on a configuration.
+The <a href="retry.html#com.github.nwillc.kretry$retry(com.github.nwillc.kretry.retry.C, com.github.nwillc.kretry.Config((com.github.nwillc.kretry.retry.T)), kotlin.Function1((com.github.nwillc.kretry.retry.C, com.github.nwillc.kretry.retry.T)))/func">func</a> is run repeatedly until succeeding based on the <a href="retry.html#com.github.nwillc.kretry$retry(com.github.nwillc.kretry.retry.C, com.github.nwillc.kretry.Config((com.github.nwillc.kretry.retry.T)), kotlin.Function1((com.github.nwillc.kretry.retry.C, com.github.nwillc.kretry.retry.T)))/config">config</a> predicate, or
+until the <a href="retry.html#com.github.nwillc.kretry$retry(com.github.nwillc.kretry.retry.C, com.github.nwillc.kretry.Config((com.github.nwillc.kretry.retry.T)), kotlin.Function1((com.github.nwillc.kretry.retry.C, com.github.nwillc.kretry.retry.T)))/config">config</a> attempts exceeded.</p>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">C</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier">T</span><span class="symbol">&gt;</span> <span class="identifier">C</span><span class="symbol">.</span><span class="identifier">retry</span><span class="symbol">(</span><span class="identifier" id="com.github.nwillc.kretry$retry(com.github.nwillc.kretry.retry.C, com.github.nwillc.kretry.Config((com.github.nwillc.kretry.retry.T)), kotlin.Function1((com.github.nwillc.kretry.retry.C, com.github.nwillc.kretry.retry.T)))/config">config</span><span class="symbol">:</span>&nbsp;<a href="-config/index.html"><span class="identifier">Config</span></a><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;Config()<span class="symbol">, </span><span class="identifier" id="com.github.nwillc.kretry$retry(com.github.nwillc.kretry.retry.C, com.github.nwillc.kretry.Config((com.github.nwillc.kretry.retry.T)), kotlin.Function1((com.github.nwillc.kretry.retry.C, com.github.nwillc.kretry.retry.T)))/func">func</span><span class="symbol">:</span>&nbsp;<span class="identifier">C</span><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<span class="identifier">T</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">T</span></code></td>
 </tr>
 </tbody>
 </table>

@@ -9,6 +9,7 @@
 <br/>
 <h1>BackOff</h1>
 <code><span class="keyword">enum</span> <span class="keyword">class </span><span class="identifier">BackOff</span></code>
+<p>Ways to extend the delay between attempts.</p>
 <h3>Enum Values</h3>
 <table>
 <tbody>
@@ -17,13 +18,15 @@
 <h4><a href="-n-o-n-e.html">NONE</a></h4>
 </td>
 <td>
+<p>Use the delay with no extending.</p>
 </td>
 </tr>
 <tr>
 <td>
-<h4><a href="-l-i-n-e-r.html">LINER</a></h4>
+<h4><a href="-a-t-t-e-m-p-t_-m-u-l-t-i-p-l-e.html">ATTEMPT_MULTIPLE</a></h4>
 </td>
 <td>
+<p>Extend the delay by multiplying by the attempt.</p>
 </td>
 </tr>
 <tr>
@@ -31,6 +34,7 @@
 <h4><a href="-f-i-b-o-n-a-c-c-i.html">FIBONACCI</a></h4>
 </td>
 <td>
+<p>Extend the delay by multiplying by the Fibonacci number of the attempt.</p>
 </td>
 </tr>
 </tbody>

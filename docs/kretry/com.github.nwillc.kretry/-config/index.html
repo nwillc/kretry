@@ -9,6 +9,16 @@
 <br/>
 <h1>Config</h1>
 <code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Config</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>The retrying configuration.</p>
+<h3>Parameters</h3>
+<p><a name="attempts"></a>
+<code>attempts</code> - The maximum number of attempts to make.</p>
+<p><a name="delay"></a>
+<code>delay</code> - The base delay between attempts.</p>
+<p><a name="backOff"></a>
+<code>backOff</code> - How the base delay should be extended with each attempt.</p>
+<p><a name="predicate"></a>
+<code>predicate</code> - How to determine success, allowing more than a binary complete/exception.</p>
 <h3>Constructors</h3>
 <table>
 <tbody>
@@ -17,7 +27,8 @@
 <h4><a href="-init-.html">&lt;init&gt;</a></h4>
 </td>
 <td>
-<code><span class="identifier">Config</span><span class="symbol">(</span><span class="identifier" id="com.github.nwillc.kretry.Config$<init>(kotlin.Int, com.github.nwillc.kretry.Delay, com.github.nwillc.kretry.BackOff, kotlin.Function1((com.github.nwillc.kretry.Config.T, kotlin.Boolean)))/attempts">attempts</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a>&nbsp;<span class="symbol">=</span>&nbsp;10<span class="symbol">, </span><span class="identifier" id="com.github.nwillc.kretry.Config$<init>(kotlin.Int, com.github.nwillc.kretry.Delay, com.github.nwillc.kretry.BackOff, kotlin.Function1((com.github.nwillc.kretry.Config.T, kotlin.Boolean)))/delay">delay</span><span class="symbol">:</span>&nbsp;<a href="../-delay/index.html"><span class="identifier">Delay</span></a>&nbsp;<span class="symbol">=</span>&nbsp;Delay()<span class="symbol">, </span><span class="identifier" id="com.github.nwillc.kretry.Config$<init>(kotlin.Int, com.github.nwillc.kretry.Delay, com.github.nwillc.kretry.BackOff, kotlin.Function1((com.github.nwillc.kretry.Config.T, kotlin.Boolean)))/backOff">backOff</span><span class="symbol">:</span>&nbsp;<a href="../-back-off/index.html"><span class="identifier">BackOff</span></a>&nbsp;<span class="symbol">=</span>&nbsp;BackOff.NONE<span class="symbol">, </span><span class="identifier" id="com.github.nwillc.kretry.Config$<init>(kotlin.Int, com.github.nwillc.kretry.Delay, com.github.nwillc.kretry.BackOff, kotlin.Function1((com.github.nwillc.kretry.Config.T, kotlin.Boolean)))/predicate">predicate</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">T</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;{ true }<span class="symbol">)</span></code></td>
+<p>The retrying configuration.</p>
+<code><span class="identifier">Config</span><span class="symbol">(</span><span class="identifier" id="com.github.nwillc.kretry.Config$<init>(kotlin.Int, java.time.Duration, com.github.nwillc.kretry.BackOff, kotlin.Function1((com.github.nwillc.kretry.Config.T, kotlin.Boolean)))/attempts">attempts</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a>&nbsp;<span class="symbol">=</span>&nbsp;10<span class="symbol">, </span><span class="identifier" id="com.github.nwillc.kretry.Config$<init>(kotlin.Int, java.time.Duration, com.github.nwillc.kretry.BackOff, kotlin.Function1((com.github.nwillc.kretry.Config.T, kotlin.Boolean)))/delay">delay</span><span class="symbol">:</span>&nbsp;<span class="identifier">Duration</span>&nbsp;<span class="symbol">=</span>&nbsp;Duration.of(500, ChronoUnit.MILLIS)<span class="symbol">, </span><span class="identifier" id="com.github.nwillc.kretry.Config$<init>(kotlin.Int, java.time.Duration, com.github.nwillc.kretry.BackOff, kotlin.Function1((com.github.nwillc.kretry.Config.T, kotlin.Boolean)))/backOff">backOff</span><span class="symbol">:</span>&nbsp;<a href="../-back-off/index.html"><span class="identifier">BackOff</span></a>&nbsp;<span class="symbol">=</span>&nbsp;BackOff.NONE<span class="symbol">, </span><span class="identifier" id="com.github.nwillc.kretry.Config$<init>(kotlin.Int, java.time.Duration, com.github.nwillc.kretry.BackOff, kotlin.Function1((com.github.nwillc.kretry.Config.T, kotlin.Boolean)))/predicate">predicate</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">T</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;{ true }<span class="symbol">)</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -29,6 +40,7 @@
 <h4><a href="attempts.html">attempts</a></h4>
 </td>
 <td>
+<p>The maximum number of attempts to make.</p>
 <code><span class="keyword">var </span><span class="identifier">attempts</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
 </tr>
 <tr>
@@ -36,6 +48,7 @@
 <h4><a href="back-off.html">backOff</a></h4>
 </td>
 <td>
+<p>How the base delay should be extended with each attempt.</p>
 <code><span class="keyword">var </span><span class="identifier">backOff</span><span class="symbol">: </span><a href="../-back-off/index.html"><span class="identifier">BackOff</span></a></code></td>
 </tr>
 <tr>
@@ -43,26 +56,16 @@
 <h4><a href="delay.html">delay</a></h4>
 </td>
 <td>
-<code><span class="keyword">var </span><span class="identifier">delay</span><span class="symbol">: </span><a href="../-delay/index.html"><span class="identifier">Delay</span></a></code></td>
+<p>The base delay between attempts.</p>
+<code><span class="keyword">var </span><span class="identifier">delay</span><span class="symbol">: </span><span class="identifier">Duration</span></code></td>
 </tr>
 <tr>
 <td>
 <h4><a href="predicate.html">predicate</a></h4>
 </td>
 <td>
+<p>How to determine success, allowing more than a binary complete/exception.</p>
 <code><span class="keyword">var </span><span class="identifier">predicate</span><span class="symbol">: </span><span class="symbol">(</span><span class="identifier">T</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
-</tr>
-</tbody>
-</table>
-<h3>Functions</h3>
-<table>
-<tbody>
-<tr>
-<td>
-<h4><a href="delay.html">delay</a></h4>
-</td>
-<td>
-<code><span class="keyword">fun </span><span class="identifier">delay</span><span class="symbol">(</span><span class="identifier" id="com.github.nwillc.kretry.Config$delay(kotlin.Int)/attempted">attempted</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-delay/index.html"><span class="identifier">Delay</span></a></code></td>
 </tr>
 </tbody>
 </table>
