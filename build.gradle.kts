@@ -1,5 +1,6 @@
 import com.jfrog.bintray.gradle.BintrayExtension
 import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val publicationName = "maven"
@@ -16,6 +17,7 @@ plugins {
     kotlin("jvm") version "1.3.61"
     jacoco
     `maven-publish`
+    id("org.jetbrains.dokka") version "0.10.0"
     id("com.github.nwillc.vplugin") version "3.0.1"
     id("com.jfrog.bintray") version "1.8.4"
     id("io.gitlab.arturbosch.detekt") version "1.2.0"
@@ -23,7 +25,7 @@ plugins {
 }
 
 group = "com.github.nwillc"
-version = "0.2.1"
+version = "0.2.2-SNAPSHOT"
 
 logger.lifecycle("${project.group}.${project.name}@${project.version}")
 
@@ -62,6 +64,12 @@ val sourcesJar by tasks.registering(Jar::class) {
     from(sourceSets["main"].allSource)
 }
 
+val javadocJar by tasks.registering(Jar::class) {
+    dependsOn("dokka")
+    classifier = "javadoc"
+    from("$buildDir/dokka")
+}
+
 publishing {
     publications {
         create<MavenPublication>(publicationName) {
@@ -71,6 +79,7 @@ publishing {
 
             from(components["java"])
             artifact(sourcesJar.get())
+            artifact(javadocJar.get())
         }
     }
 }
@@ -119,6 +128,10 @@ tasks {
                 isEnabled = true
             }
         }
+    }
+    withType<DokkaTask> {
+        outputFormat = "html"
+        outputDirectory = "$buildDir/dokka"
     }
     withType<Wrapper> {
         gradleVersion = "5.6.2"
