@@ -16,7 +16,8 @@
 
 package com.github.nwillc.kretry
 
-import java.util.concurrent.TimeUnit
+import java.time.Duration
+import java.time.temporal.ChronoUnit
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
@@ -40,36 +41,33 @@ class RetryExtTest {
     fun `should calculate with no back off delay`() {
         val config = Config<Int>().apply {
             backOff = BackOff.NONE
-            delay = Delay(TimeUnit.SECONDS, 1)
+            delay = Duration.of(1, ChronoUnit.SECONDS)
         }
 
         val delay = config.delay(10)
-        assertThat(delay.unit).isEqualTo(TimeUnit.SECONDS)
-        assertThat(delay.amount).isEqualTo(1)
+        assertThat(delay.seconds).isEqualTo(1)
     }
 
     @Test
     fun `should calculate liner back off delay`() {
         val config = Config<Int>().apply {
-            backOff = BackOff.LINER
-            delay = Delay(TimeUnit.MINUTES, 1)
+            backOff = BackOff.ATTEMPT_MULTIPLE
+            delay = Duration.of(1, ChronoUnit.MINUTES)
         }
 
         val delay = config.delay(10)
-        assertThat(delay.unit).isEqualTo(TimeUnit.MINUTES)
-        assertThat(delay.amount).isEqualTo(10)
+        assertThat(delay.toMinutes()).isEqualTo(10)
     }
 
     @Test
     fun `should calculate fibonachi back off delay`() {
         val config = Config<Int>().apply {
             backOff = BackOff.FIBONACCI
-            delay = Delay(TimeUnit.MINUTES, 1)
+            delay = Duration.of(1, ChronoUnit.MINUTES)
         }
 
         val delay = config.delay(9)
-        assertThat(delay.unit).isEqualTo(TimeUnit.MINUTES)
-        assertThat(delay.amount).isEqualTo(34)
+        assertThat(delay.toMinutes()).isEqualTo(34)
     }
 
     @Test
@@ -92,7 +90,7 @@ class RetryExtTest {
     fun `should perform basic retry`() {
         val expected = "hello"
         val config = Config<String>().apply {
-            delay = Delay(TimeUnit.MILLISECONDS, 50)
+            delay = Duration.of(1, ChronoUnit.MILLIS)
         }
         val fail = 5
         var attempt = 0
@@ -116,7 +114,7 @@ class RetryExtTest {
         val expected = "6"
         val config = Config<String>().apply {
             predicate = { it == expected }
-            delay = Delay(TimeUnit.MILLISECONDS, 50)
+            delay = Duration.of(50, ChronoUnit.MILLIS)
         }
         val fail = 3
         var attempt = 0
@@ -139,7 +137,7 @@ class RetryExtTest {
     fun `should throw exception if attempt count exceeded`() {
         val config = Config<String>().apply {
             attempts = 5
-            delay = Delay(TimeUnit.MILLISECONDS, 50)
+            delay = Duration.of(50, ChronoUnit.MILLIS)
         }
         assertThatThrownBy {
             retry(config) {

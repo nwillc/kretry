@@ -16,28 +16,54 @@
 
 package com.github.nwillc.kretry
 
+/**
+ * An enhanced Try which will retry until [Success] or [Failure].
+ */
 sealed class Retry<out T> {
     companion object {
+        /**
+         * Invoke an instance of [Retry] with a [Config] and function to retry. Will result in either an instance of
+         * [Success] or [Failure].
+         * @param config The retrying [Config].
+         * @param func The function to retry.
+         */
         @SuppressWarnings("TooGenericExceptionCaught")
         operator fun <T> invoke(config: Config<T> = Config(), func: () -> T): Retry<T> =
             try {
                 Success(retry(config) { func() })
-            } catch (error: Exception) {
+            } catch (error: RetryExceededException) {
                 Failure(error)
             }
     }
 
+    /**
+     * Get the value of the [Retry].
+     */
     abstract fun get(): T
+
+    /**
+     * Get the value of the [Retry], or a default on [Failure].
+     *
+     * @param default Value to return if this [Retry] is a [Failure].
+     */
     abstract fun getOrElse(default: @UnsafeVariance T): T
 }
 
+/**
+ * A [Retry] that succeeded.
+ * @param value The value returned by function invoked by the [Retry].
+ */
 class Success<T>(val value: T) : Retry<T>() {
     override fun get() = value
     override fun getOrElse(default: T) = value
     override fun toString() = "Success($value)"
 }
 
-class Failure<T>(val value: Exception) : Retry<T>() {
+/**
+ * A [Retry] that failed.
+ * @param value The [RetryExceededException] describing the eventual failure of the [Retry].
+ */
+class Failure<T>(val value: RetryExceededException) : Retry<T>() {
     override fun get(): T = throw value
     override fun getOrElse(default: T) = default
     override fun toString() = "Failure(${value.message})"

@@ -16,35 +16,45 @@
 
 package com.github.nwillc.kretry
 
-import java.util.concurrent.TimeUnit
+import java.time.Duration
+import java.time.temporal.ChronoUnit
 
+internal const val DEFAULT_DELAY_MILLIS: Long = 500
+
+/**
+ * The retrying configuration.
+ *
+ * @param attempts The maximum number of attempts to make.
+ * @param delay The base delay between attempts.
+ * @param backOff How the base delay should be extended with each attempt.
+ * @param predicate How to determine success, allowing more than a binary complete/exception.
+ */
 data class Config<T>(
     var attempts: Int = 10,
-    var delay: Delay = Delay(),
+    var delay: Duration = Duration.of(DEFAULT_DELAY_MILLIS, ChronoUnit.MILLIS),
     var backOff: BackOff = BackOff.NONE,
     var predicate: (T) -> Boolean = { true }
 ) {
-    fun delay(attempted: Int): Delay = when (backOff) {
+    internal fun delay(attempted: Int): Duration = when (backOff) {
         BackOff.NONE -> delay
-        BackOff.LINER -> delay.copy(amount = delay.amount * attempted)
-        BackOff.FIBONACCI -> delay.copy(amount = delay.amount * fibonacci(attempted))
+        BackOff.ATTEMPT_MULTIPLE -> delay.multipliedBy(attempted.toLong())
+        BackOff.FIBONACCI -> delay.multipliedBy(fibonacci(attempted).toLong())
     }
 }
 
+/**
+ * Ways to extend the delay between attempts.
+ */
 enum class BackOff {
+    /** Use the delay with no extending. */
     NONE,
-    LINER,
+    /** Extend the delay by multiplying by the attempt. */
+    ATTEMPT_MULTIPLE,
+    /** Extend the delay by multiplying by the Fibonacci number of the attempt. */
     FIBONACCI
 }
 
-data class Delay(
-    val unit: TimeUnit = TimeUnit.MILLISECONDS,
-    val amount: Long = 500
-) {
-    fun sleep() {
-        Thread.sleep(unit.toMillis(amount))
-    }
-}
+internal fun Duration.sleep() = Thread.sleep(toMillis())
 
 internal fun fibonacci(n: Int): Int {
     tailrec fun fibTail(n: Int, first: Int, second: Int): Int = if (n == 0)

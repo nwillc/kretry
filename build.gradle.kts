@@ -25,7 +25,7 @@ plugins {
 }
 
 group = "com.github.nwillc"
-version = "0.2.2-SNAPSHOT"
+version = "0.3.0"
 
 logger.lifecycle("${project.group}.${project.name}@${project.version}")
 
@@ -132,6 +132,9 @@ tasks {
     withType<DokkaTask> {
         outputFormat = "html"
         outputDirectory = "$buildDir/dokka"
+        configuration {
+            includes = listOf("Module.md")
+        }
     }
     withType<Wrapper> {
         gradleVersion = "5.6.2"

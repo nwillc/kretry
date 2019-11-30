@@ -16,7 +16,8 @@
 
 package com.github.nwillc.kretry
 
-import java.util.concurrent.TimeUnit
+import java.time.Duration
+import java.time.temporal.ChronoUnit
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
@@ -38,7 +39,7 @@ class RetryTest {
     fun `should be able to use Retry for Success`() {
         val expected = "hello"
         val config = Config<String>().apply {
-            delay = Delay(TimeUnit.MILLISECONDS, 50)
+            delay = Duration.of(50, ChronoUnit.MILLIS)
         }
         val fail = 5
         var attempt = 0

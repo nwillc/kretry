@@ -17,16 +17,23 @@
 package com.github.nwillc.kretry
 
 import com.github.nwillc.slf4jkext.getLogger
-import java.lang.Thread.sleep
 
 internal val logger = getLogger("retry")
 
+/**
+ * A retrying extension that will retry a given function based on a configuration.
+ * The [func] is run repeatedly until succeeding based on the [config] predicate, or
+ * until the [config] attempts exceeded.
+ * @param config The retrying [Config].
+ * @param func The function to retry.
+ * @throws RetryExceededException If the [config] attempts exceeded.
+ */
 @SuppressWarnings("TooGenericExceptionCaught")
-fun <C : Any, T> C.retry(config: Config<T> = Config(), block: C.() -> T): T {
+fun <C : Any, T> C.retry(config: Config<T> = Config(), func: C.() -> T): T {
     var attempted = 0
     while (attempted < config.attempts) {
         try {
-            val result = block()
+            val result = func()
             if (config.predicate(result))
                 return result
             else

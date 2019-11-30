@@ -16,4 +16,7 @@
 
 package com.github.nwillc.kretry
 
+/**
+ * Exception indicating that all retry attempts have failed.
+ */
 class RetryExceededException(msg: String) : Exception(msg)
