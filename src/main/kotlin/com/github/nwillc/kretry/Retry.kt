@@ -64,6 +64,9 @@ class Success<T>(val value: T) : Retry<T>() {
  * @param value The [RetryExceededException] describing the eventual failure of the [Retry].
  */
 class Failure<T>(val value: RetryExceededException) : Retry<T>() {
+    /** Throws the value [RetryExceededException].
+     * @throws RetryExceededException Retry exceeded exception.
+     */
     override fun get(): T = throw value
     override fun getOrElse(default: T) = default
     override fun toString() = "Failure(${value.message})"
