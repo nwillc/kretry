@@ -1,4 +1,4 @@
 $dokka.format:html
 $dokka.linkExtension:html
-
+$dokka.location:com.github.nwillc.kretry$sleep(java.time.Duration)com.github.nwillc.kretry/java.time.-duration/sleep.html
 com.github.nwillc.kretry
