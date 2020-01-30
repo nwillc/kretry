@@ -30,6 +30,20 @@ if (result is Success) { } else { }
 
 ```
 
+## Wait, Kotlin Has a Try...
+
+Kotlin introduced `Result` and `runCatching` which is effectively `Try` support.  To support this, with retrying,
+`retryCatching` was added:
+
+```kotlin
+val result = retryCatching {
+    // some code that can fail, possibly with an exception
+}
+
+if (result. isSuccess) { } else { }
+
+```
+
 ## See Also
 
 - [API Docs](https://nwillc.github.io/kretry/kretry)
