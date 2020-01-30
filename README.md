@@ -40,7 +40,7 @@ val result = retryCatching {
     // some code that can fail, possibly with an exception
 }
 
-if (result. isSuccess) { } else { }
+if (result.isSuccess) { } else { }
 
 ```
 
