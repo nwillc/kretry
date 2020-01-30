@@ -25,7 +25,7 @@ plugins {
 }
 
 group = "com.github.nwillc"
-version = "0.3.1"
+version = "0.4.0"
 
 logger.lifecycle("${project.group}.${project.name}@${project.version}")
 
@@ -106,6 +106,7 @@ bintray {
 
 tasks {
     withType<KotlinCompile> {
+        kotlinOptions.freeCompilerArgs += listOf("-Xinline-classes", "-Xallow-result-return-type")
         kotlinOptions.jvmTarget = "1.8"
     }
     named<Jar>("jar") {

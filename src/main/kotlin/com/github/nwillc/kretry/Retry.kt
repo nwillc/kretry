@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019,  nwillc@gmail.com
+ * Copyright (c) 2020,  nwillc@gmail.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -30,7 +30,7 @@ sealed class Retry<out T> {
         @SuppressWarnings("TooGenericExceptionCaught")
         operator fun <T> invoke(config: Config<T> = Config(), func: () -> T): Retry<T> =
             try {
-                Success(retry(config) { func() })
+                Success(retry(config, func))
             } catch (error: RetryExceededException) {
                 Failure(error)
             }

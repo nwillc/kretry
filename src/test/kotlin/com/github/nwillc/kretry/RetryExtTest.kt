@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019,  nwillc@gmail.com
+ * Copyright (c) 2020,  nwillc@gmail.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -32,10 +32,10 @@ class RetryExtTest {
         testLogger.clear()
     }
 
-    @Test
-    fun `should have logger`() {
-        assertThat(logger).isNotNull
-    }
+//    @Test
+//    fun `should have logger`() {
+//        assertThat(logger).isNotNull
+//    }
 
     @Test
     fun `should calculate with no back off delay`() {

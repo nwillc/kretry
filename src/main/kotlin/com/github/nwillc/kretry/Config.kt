@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019, nwillc@gmail.com
+ * Copyright (c) 2020,  nwillc@gmail.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -35,7 +35,7 @@ data class Config<T>(
     var backOff: BackOff = BackOff.NONE,
     var predicate: (T) -> Boolean = { true }
 ) {
-    internal fun delay(attempted: Int): Duration = when (backOff) {
+    fun delay(attempted: Int): Duration = when (backOff) {
         BackOff.NONE -> delay
         BackOff.ATTEMPT_MULTIPLE -> delay.multipliedBy(attempted.toLong())
         BackOff.FIBONACCI -> delay.multipliedBy(fibonacci(attempted).toLong())
@@ -54,9 +54,9 @@ enum class BackOff {
     FIBONACCI
 }
 
-internal fun Duration.sleep() = Thread.sleep(toMillis())
+fun Duration.sleep() = Thread.sleep(toMillis())
 
-internal fun fibonacci(n: Int): Int {
+fun fibonacci(n: Int): Int {
     tailrec fun fibTail(n: Int, first: Int, second: Int): Int = if (n == 0)
         first
     else

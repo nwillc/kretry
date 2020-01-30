@@ -16,27 +16,25 @@
 
 package com.github.nwillc.kretry
 
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 import java.time.Duration
 import java.time.temporal.ChronoUnit
-import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatThrownBy
-import org.junit.jupiter.api.Test
 
-class RetryTest {
+class RetryCatchingTest {
     @Test
-    fun `should be able to Retry until Failure`() {
-        val result = Retry<String> {
+    fun `should be able to retryCatching until failure`() {
+        val result = retryCatching<String> {
             throw java.lang.Exception()
         }
-
-        assertThat(result is Failure).isTrue()
-        assertThatThrownBy { result.get() }.isInstanceOf(RetryExceededException::class.java)
-        assertThat(result.getOrElse("foo")).isEqualTo("foo")
+        assertThat(result.isFailure).isTrue()
+        assertThat(result.exceptionOrNull()).isInstanceOf(RetryExceededException::class.java)
+        assertThat(result.getOrDefault("foo")).isEqualTo("foo")
         assertThat(result.toString()).startsWith(("Failure(")).endsWith(")")
     }
 
     @Test
-    fun `should be able to use Retry for Success`() {
+    fun `should be able to use retryCatching with success`() {
         val expected = "hello"
         val config = Config<String>().apply {
             delay = Duration.of(50, ChronoUnit.MILLIS)
@@ -44,7 +42,7 @@ class RetryTest {
         val fail = 5
         var attempt = 0
 
-        val result = Retry(config) {
+        val result = retryCatching(config) {
             attempt++
             if (attempt <= fail) {
                 throw Exception()
@@ -52,9 +50,9 @@ class RetryTest {
             expected
         }
 
-        assertThat(result is Success).isTrue()
-        assertThat(result.get()).isEqualTo(expected)
-        assertThat(result.getOrElse("foo")).isEqualTo(expected)
+        assertThat(result.isSuccess).isTrue()
+        assertThat(result.getOrThrow()).isEqualTo(expected)
+        assertThat(result.getOrDefault("foo")).isEqualTo(expected)
         assertThat(result.toString()).isEqualTo("Success($expected)")
     }
 }

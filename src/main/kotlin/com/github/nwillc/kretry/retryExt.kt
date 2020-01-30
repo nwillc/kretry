@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019,  nwillc@gmail.com
+ * Copyright (c) 2020,  nwillc@gmail.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -18,22 +18,21 @@ package com.github.nwillc.kretry
 
 import com.github.nwillc.slf4jkext.getLogger
 
-internal val logger = getLogger("retry")
-
 /**
  * A retrying extension that will retry a given function based on a configuration.
- * The [func] is run repeatedly until succeeding based on the [config] predicate, or
+ * The [block] is run repeatedly until succeeding based on the [config] predicate, or
  * until the [config] attempts exceeded.
  * @param config The retrying [Config].
- * @param func The function to retry.
+ * @param block The function to retry.
  * @throws RetryExceededException If the [config] attempts exceeded.
  */
 @SuppressWarnings("TooGenericExceptionCaught")
-fun <C : Any, T> C.retry(config: Config<T> = Config(), func: C.() -> T): T {
+inline fun <R> retry(config: Config<R> = Config(), block: () -> R): R {
+    val logger = getLogger("retry")
     var attempted = 0
     while (attempted < config.attempts) {
         try {
-            val result = func()
+            val result = block()
             if (config.predicate(result))
                 return result
             else
@@ -48,3 +47,21 @@ fun <C : Any, T> C.retry(config: Config<T> = Config(), func: C.() -> T): T {
     logger.error(msg)
     throw RetryExceededException(msg)
 }
+
+/**
+ * Parallels Kotlin's [runCatching] employing [retry].
+ * @param config The retrying [Config].
+ * @param block The code block to retry.
+ * @return A [Result] for the success of failure.
+ */
+inline fun <R> retryCatching(config: Config<R> = Config(), block: () -> R): Result<R> =
+    runCatching { retry(config, block) }
+
+/**
+ * Parallels Kotlin's [runCatching] employing [retry].
+ * @param config The retrying [Config].
+ * @param block The code block to retry, with `this` value as its receiver.
+ * @return A [Result] for the success of failure.
+ */
+inline fun <T, R> T.retryCatching(config: Config<R> = Config(), block: () -> R): Result<R> =
+    runCatching { retry(config, block) }
