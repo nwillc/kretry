@@ -16,10 +16,10 @@
 
 package com.github.nwillc.kretry
 
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
 import java.time.Duration
 import java.time.temporal.ChronoUnit
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
 class RetryCatchingTest {
     @Test
