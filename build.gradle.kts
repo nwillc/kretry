@@ -14,18 +14,18 @@ val slf4jKextVersion: String by project
 val slf4jTestVersion: String by project
 
 plugins {
-    kotlin("jvm") version "1.3.61"
+    kotlin("jvm") version "1.3.70"
     jacoco
     `maven-publish`
-    id("org.jetbrains.dokka") version "0.10.0"
+    id("org.jetbrains.dokka") version "0.10.1"
     id("com.github.nwillc.vplugin") version "3.0.1"
     id("com.jfrog.bintray") version "1.8.4"
-    id("io.gitlab.arturbosch.detekt") version "1.5.0"
-    id("org.jlleitschuh.gradle.ktlint") version "9.1.1"
+    id("io.gitlab.arturbosch.detekt") version "1.6.0"
+    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
 }
 
 group = "com.github.nwillc"
-version = "0.4.1-SNAPSHOT"
+version = "0.4.1"
 
 logger.lifecycle("${project.group}.${project.name}@${project.version}")
 
@@ -134,11 +134,9 @@ tasks {
         outputFormat = "html"
         outputDirectory = "$buildDir/dokka"
         configuration {
+            jdkVersion = 8
             includes = listOf("Module.md")
         }
-    }
-    withType<Wrapper> {
-        gradleVersion = "5.6.2"
     }
     withType<GenerateMavenPom> {
         destination = file("$buildDir/libs/${project.name}-${project.version}.pom")

@@ -23,6 +23,27 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 
 class RetryTest {
+
+    inline fun <T, R : Comparable<R>> Iterable<T>.orderBy(order: String = "asc", crossinline selector: (T) -> R?): List<T> =
+        when(order.toLowerCase()) {
+            "asc" -> sortedWith(compareBy(selector))
+            "desc" -> sortedWith(compareByDescending(selector))
+            else -> this.toList()
+        }
+
+    @Test
+    fun sorting() {
+        val list = listOf("b", "c", "a")
+
+        list
+            .orderBy("asc") { it }
+            .forEach { println("> $it") }
+
+        list
+                   .orderBy("desc") { it }
+                   .forEach { println("> $it") }
+    }
+
     @Test
     fun `should be able to Retry until Failure`() {
         val result = Retry<String> {
