@@ -24,8 +24,11 @@ import org.junit.jupiter.api.Test
 
 class RetryTest {
 
-    inline fun <T, R : Comparable<R>> Iterable<T>.orderBy(order: String = "asc", crossinline selector: (T) -> R?): List<T> =
-        when(order.toLowerCase()) {
+    inline fun <T, R : Comparable<R>> Iterable<T>.orderBy(
+        order: String = "asc",
+        crossinline selector: (T) -> R?
+    ): List<T> =
+        when (order.toLowerCase()) {
             "asc" -> sortedWith(compareBy(selector))
             "desc" -> sortedWith(compareByDescending(selector))
             else -> this.toList()
@@ -40,8 +43,8 @@ class RetryTest {
             .forEach { println("> $it") }
 
         list
-                   .orderBy("desc") { it }
-                   .forEach { println("> $it") }
+            .orderBy("desc") { it }
+            .forEach { println("> $it") }
     }
 
     @Test
