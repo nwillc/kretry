@@ -32,11 +32,6 @@ class RetryExtTest {
         testLogger.clear()
     }
 
-//    @Test
-//    fun `should have logger`() {
-//        assertThat(logger).isNotNull
-//    }
-
     @Test
     fun `should calculate with no back off delay`() {
         val config = Config<Int>().apply {

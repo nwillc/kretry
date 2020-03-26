@@ -4,6 +4,7 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val publicationName = "maven"
+val dokkaDir = "$projectDir/docs/dokka"
 
 val assertJVersion: String by project
 val jupiterVersion: String by project
@@ -14,18 +15,18 @@ val slf4jKextVersion: String by project
 val slf4jTestVersion: String by project
 
 plugins {
-    kotlin("jvm") version "1.3.70"
+    kotlin("jvm") version "1.3.71"
     jacoco
     `maven-publish`
     id("org.jetbrains.dokka") version "0.10.1"
-    id("com.github.nwillc.vplugin") version "3.0.1"
+    id("com.github.nwillc.vplugin") version "3.0.3"
     id("com.jfrog.bintray") version "1.8.4"
-    id("io.gitlab.arturbosch.detekt") version "1.6.0"
+    id("io.gitlab.arturbosch.detekt") version "1.7.0"
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
 }
 
 group = "com.github.nwillc"
-version = "0.4.1"
+version = "0.4.2"
 
 logger.lifecycle("${project.group}.${project.name}@${project.version}")
 
@@ -60,13 +61,13 @@ ktlint {
 }
 
 val sourcesJar by tasks.registering(Jar::class) {
-    classifier = "sources"
+    archiveClassifier.convention("sources")
     from(sourceSets["main"].allSource)
 }
 
 val javadocJar by tasks.registering(Jar::class) {
     dependsOn("dokka")
-    classifier = "javadoc"
+    archiveClassifier.convention("javadoc")
     from("$buildDir/dokka")
 }
 
@@ -106,8 +107,8 @@ bintray {
 
 tasks {
     withType<KotlinCompile> {
-        kotlinOptions.freeCompilerArgs += listOf("-Xinline-classes", "-Xallow-result-return-type")
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.freeCompilerArgs += listOf("-Xallow-result-return-type")
+        kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
     named<Jar>("jar") {
         manifest.attributes["Automatic-Module-Name"] = "${project.group}.${project.name}"
@@ -132,7 +133,7 @@ tasks {
     }
     withType<DokkaTask> {
         outputFormat = "html"
-        outputDirectory = "$buildDir/dokka"
+        outputDirectory = dokkaDir
         configuration {
             jdkVersion = 8
             includes = listOf("Module.md")
