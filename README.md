@@ -46,4 +46,4 @@ if (result.isSuccess) { } else { }
 
 ## See Also
 
-- [API Docs](https://nwillc.github.io/kretry/dokka)
+- [API Docs](https://nwillc.github.io/kretry/dokka/kretry)
