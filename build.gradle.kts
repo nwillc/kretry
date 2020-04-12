@@ -6,23 +6,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val publicationName = "maven"
 val dokkaDir = "$projectDir/docs/dokka"
 
-val assertJVersion: String by project
-val jupiterVersion: String by project
-val ktlintToolVersion: String by project
-val mockkVersion: String by project
-val slf4jApiVersion: String by project
-val slf4jKextVersion: String by project
-val slf4jTestVersion: String by project
-
 plugins {
-    kotlin("jvm") version "1.3.71"
     jacoco
     `maven-publish`
-    id("org.jetbrains.dokka") version "0.10.1"
-    id("com.github.nwillc.vplugin") version "3.0.3"
-    id("com.jfrog.bintray") version "1.8.5"
-    id("io.gitlab.arturbosch.detekt") version "1.7.4"
-    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
+    Dependencies.plugins.forEach { (n, v) -> id(n) version v }
 }
 
 group = "com.github.nwillc"
@@ -35,29 +22,26 @@ repositories {
 }
 
 dependencies {
-    listOf(
-        kotlin("stdlib-jdk8"),
-        "org.slf4j:slf4j-api:$slf4jApiVersion",
-        "$group:slf4jkext:$slf4jKextVersion"
-    )
-        .forEach { implementation(it) }
+    Dependencies.artifacts(
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk8",
+        "org.slf4j:slf4j-api",
+        "$group:slf4jkext"
+    ) { implementation(it) }
 
-    listOf(
-        "io.mockk:mockk:$mockkVersion",
-        "org.assertj:assertj-core:$assertJVersion",
-        "org.junit.jupiter:junit-jupiter-api:$jupiterVersion",
-        "uk.org.lidalia:slf4j-test:$slf4jTestVersion"
-    )
-        .forEach { testImplementation(it) }
-
-    listOf(
-        "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
-    )
-        .forEach { testRuntimeOnly(it) }
+    Dependencies.artifacts(
+        "io.mockk:mockk",
+        "org.assertj:assertj-core",
+        "org.junit.jupiter:junit-jupiter",
+        "uk.org.lidalia:slf4j-test"
+    ) { testImplementation(it) }
 }
 
 ktlint {
-    version.set(ktlintToolVersion)
+    version.set(ToolVersions.ktlint)
+}
+
+jacoco {
+    toolVersion = ToolVersions.jacoco
 }
 
 val sourcesJar by tasks.registering(Jar::class) {
