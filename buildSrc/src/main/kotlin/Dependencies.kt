@@ -16,9 +16,9 @@
 
 object PluginVersions {
     const val bintray = "1.8.5"
-    const val detekt = "1.7.4"
+    const val detekt = "1.8.0"
     const val dokka = "0.10.1"
-    const val kotlin = "1.3.71"
+    const val kotlin = "1.3.72"
     const val ktlint = "9.2.1"
     const val vplugin = "3.0.3"
 }

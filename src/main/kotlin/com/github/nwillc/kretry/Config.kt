@@ -54,8 +54,15 @@ enum class BackOff {
     FIBONACCI
 }
 
+/**
+ * [Thread] sleep for a [Duration].
+ */
 fun Duration.sleep() = Thread.sleep(toMillis())
 
+/**
+ * Calculate a fibonacci number for a given position in the sequence.
+ * @param n The position in the sequence to calculate.
+ */
 fun fibonacci(n: Int): Int {
     tailrec fun fibTail(n: Int, first: Int, second: Int): Int = if (n == 0)
         first
