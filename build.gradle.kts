@@ -45,13 +45,13 @@ jacoco {
 }
 
 val sourcesJar by tasks.registering(Jar::class) {
-    archiveClassifier.convention("sources")
+    archiveClassifier.set("sources")
     from(sourceSets["main"].allSource)
 }
 
 val javadocJar by tasks.registering(Jar::class) {
     dependsOn("dokka")
-    archiveClassifier.convention("javadoc")
+    archiveClassifier.set("javadoc")
     from("$buildDir/dokka")
 }
 
@@ -122,9 +122,6 @@ tasks {
             jdkVersion = 8
             includes = listOf("Module.md")
         }
-    }
-    withType<GenerateMavenPom> {
-        destination = file("$buildDir/libs/${project.name}-${project.version}.pom")
     }
     withType<BintrayUploadTask> {
         onlyIf {

@@ -51,7 +51,7 @@ sealed class Retry<out T> {
 
 /**
  * A [Retry] that succeeded.
- * @param value The value returned by function invoked by the [Retry].
+ * @property value The value returned by function invoked by the [Retry].
  */
 class Success<T>(private val value: T) : Retry<T>() {
     override fun get() = value
@@ -61,7 +61,7 @@ class Success<T>(private val value: T) : Retry<T>() {
 
 /**
  * A [Retry] that failed.
- * @param value The [RetryExceededException] describing the eventual failure of the [Retry].
+ * @property value The [RetryExceededException] describing the eventual failure of the [Retry].
  */
 class Failure<T>(private val value: RetryExceededException) : Retry<T>() {
     /** Throws the value [RetryExceededException].

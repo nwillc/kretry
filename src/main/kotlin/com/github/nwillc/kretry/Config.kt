@@ -24,10 +24,10 @@ internal const val DEFAULT_DELAY_MILLIS: Long = 500
 /**
  * The retrying configuration.
  *
- * @param attempts The maximum number of attempts to make.
- * @param delay The base delay between attempts.
- * @param backOff How the base delay should be extended with each attempt.
- * @param predicate How to determine success, allowing more than a binary complete/exception.
+ * @property attempts The maximum number of attempts to make.
+ * @property delay The base delay between attempts.
+ * @property backOff How the base delay should be extended with each attempt.
+ * @property predicate How to determine success, allowing more than a binary complete/exception.
  */
 data class Config<T>(
     var attempts: Int = 10,
