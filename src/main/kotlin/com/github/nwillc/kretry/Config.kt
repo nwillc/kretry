@@ -19,7 +19,6 @@ package com.github.nwillc.kretry
 import java.time.Duration
 import java.time.temporal.ChronoUnit
 
-
 /**
  * The retrying configuration.
  *
