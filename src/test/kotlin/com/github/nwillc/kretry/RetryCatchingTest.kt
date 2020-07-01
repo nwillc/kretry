@@ -34,6 +34,7 @@ class RetryCatchingTest {
     }
 
     @Test
+    @SuppressWarnings("TooGenericExceptionThrown")
     fun `should be able to use retryCatching with success`() {
         val expected = "hello"
         val config = Config<String>().apply {

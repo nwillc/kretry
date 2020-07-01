@@ -24,6 +24,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import uk.org.lidalia.slf4jtest.TestLoggerFactory
 
+@SuppressWarnings("TooGenericExceptionThrown")
 class RetryExtTest {
     private var testLogger = TestLoggerFactory.getTestLogger("retry")
 

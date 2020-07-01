@@ -33,10 +33,7 @@ inline fun <R> retry(config: Config<R> = Config(), block: () -> R): R {
     while (attempted < config.attempts) {
         try {
             val result = block()
-            if (config.predicate(result))
-                return result
-            else
-                logger.info("Predicate failed.")
+            if (config.predicate(result)) return result else logger.info("Predicate failed.")
         } catch (e: Exception) {
             logger.error("Block failed with $e.")
         }

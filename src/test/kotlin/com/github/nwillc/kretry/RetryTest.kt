@@ -16,11 +16,11 @@
 
 package com.github.nwillc.kretry
 
-import java.time.Duration
-import java.time.temporal.ChronoUnit
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
+import java.time.Duration
+import java.time.temporal.ChronoUnit
 
 class RetryTest {
     @Test
@@ -36,6 +36,7 @@ class RetryTest {
     }
 
     @Test
+    @SuppressWarnings("TooGenericExceptionThrown")
     fun `should be able to use Retry for Success`() {
         val expected = "hello"
         val config = Config<String>().apply {

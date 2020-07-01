@@ -64,9 +64,10 @@ fun Duration.sleep() = Thread.sleep(toMillis())
  * @param n The position in the sequence to calculate.
  */
 fun fibonacci(n: Int): Int {
-    tailrec fun fibTail(n: Int, first: Int, second: Int): Int = if (n == 0)
+    tailrec fun fibTail(n: Int, first: Int, second: Int): Int = if (n == 0) {
         first
-    else
+    } else {
         fibTail(n - 1, second, first + second)
+    }
     return fibTail(n, 0, 1)
 }

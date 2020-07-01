@@ -8,12 +8,13 @@ val dokkaDir = "$projectDir/docs/dokka"
 
 plugins {
     jacoco
+    idea
     `maven-publish`
     Dependencies.plugins.forEach { (n, v) -> id(n) version v }
 }
 
 group = "com.github.nwillc"
-version = "0.4.3-SNAPSHOT"
+version = "0.4.3"
 
 logger.lifecycle("${project.group}.${project.name}@${project.version}")
 
@@ -22,6 +23,11 @@ repositories {
 }
 
 dependencies {
+    Dependencies.artifacts(
+          "io.gitlab.arturbosch.detekt:detekt-cli",
+          "io.gitlab.arturbosch.detekt:detekt-formatting"
+      ) { detekt(it) }
+
     Dependencies.artifacts(
         "org.jetbrains.kotlin:kotlin-stdlib-jdk8",
         "org.slf4j:slf4j-api",
@@ -36,8 +42,12 @@ dependencies {
     ) { testImplementation(it) }
 }
 
-ktlint {
-    version.set(ToolVersions.ktlint)
+detekt {
+    toolVersion = PluginVersions.detekt
+    reports {
+        html.enabled = true
+        txt.enabled = true
+    }
 }
 
 jacoco {
@@ -107,12 +117,8 @@ tasks {
     withType<JacocoReport> {
         dependsOn("test")
         reports {
-            xml.apply {
-                isEnabled = true
-            }
-            html.apply {
-                isEnabled = true
-            }
+            xml.isEnabled = true
+            html.isEnabled = true
         }
     }
     withType<DokkaTask> {
