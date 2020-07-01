@@ -19,7 +19,6 @@ package com.github.nwillc.kretry
 import java.time.Duration
 import java.time.temporal.ChronoUnit
 
-internal const val DEFAULT_DELAY_MILLIS: Long = 500
 
 /**
  * The retrying configuration.
@@ -30,8 +29,8 @@ internal const val DEFAULT_DELAY_MILLIS: Long = 500
  * @property predicate How to determine success, allowing more than a binary complete/exception.
  */
 data class Config<T>(
-    var attempts: Int = 10,
-    var delay: Duration = Duration.of(DEFAULT_DELAY_MILLIS, ChronoUnit.MILLIS),
+    var attempts: Int = DEFAULT_ATTEMPTS,
+    var delay: Duration = DEFAULT_DELAY,
     var backOff: BackOff = BackOff.NONE,
     var predicate: (T) -> Boolean = { true }
 ) {
@@ -39,6 +38,12 @@ data class Config<T>(
         BackOff.NONE -> delay
         BackOff.ATTEMPT_MULTIPLE -> delay.multipliedBy(attempted.toLong())
         BackOff.FIBONACCI -> delay.multipliedBy(fibonacci(attempted).toLong())
+    }
+
+    companion object {
+        const val DEFAULT_ATTEMPTS = 10
+        const val DEFAULT_DELAY_MILLIS = 500L
+        val DEFAULT_DELAY = Duration.of(DEFAULT_DELAY_MILLIS, ChronoUnit.MILLIS)
     }
 }
 
